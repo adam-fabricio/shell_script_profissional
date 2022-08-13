@@ -1,4 +1,4 @@
-# CAPITULO 2
+# CAPITULO 2 - CONTROLE DE QUALIDADE
 
 
 Como deixar o código mais amigáveis e informativo
@@ -11,7 +11,7 @@ Como deixar o código mais amigáveis e informativo
     * Controlo de alterações e versões.
     * Estruturas interna coesa e padronizada.
 
-** Extras
+### Extras
 
     * Manual de uso.
     * Manual técnico.
@@ -21,11 +21,28 @@ Como deixar o código mais amigáveis e informativo
     * Versões beta.
     * Arquivo de exemplo de comportamento (se aplicável).
 
-# Código Limpo
+## Código Limpo
     
     * Colocar apenas um comando por linha.
     * Alinhar verticalmente comandos de um mesmo bloco, usando o espaços ou TAB's
     * Deslocar o alinhamento à direita a cada bloco novo.
     * Usar linhas em branco para separar trechos.
     * Não ultrapassar o limite de 80 colunas por linha
+        - Para quebrar linha usar "\"
+            dialog --title "Minha Telinha" --msgbox "Esta é a minha mensagem" 0 0
+            pode ficar:
+            dialog \
+                --title "Minha telinha" \
+                --msgbox "Esta é a minha mensagem" \
+                0 0
 
+## Código comentado
+    1- Comentário em bloco, antes de uma seção
+    2- Comentário de linha para comandos
+    3- Comentário de meia linha para comandos. 
+
+## PREFIXOS ESPECIAIS
+
+    TODO    -> Indica uma tarefa a ser feita
+    FIXME   -> Indica um bug conhecido
+    XXX     -> Chama atenção;
