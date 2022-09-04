@@ -112,4 +112,29 @@ Como deixar o código mais amigáveis e informativo
     * Funções podem retornar strings usando o comando echo.
     * Funções podem gravar variáveis globais, mas evite fazer isso
 
+## Versionamento
 
+    * Escolha a nomenclatura e não mude.
+    * É permitido fazer saltos de versão para uma série nova.
+	- 2.6 -> 3.0
+	- 2.6 -> 2.7
+    * Evite saltos
+	- 2.6 -> 2.9
+	- 2.6 -> 5.7
+    * Se o programa está em fase de desenvolvimento utilize as versões 0.xxx
+    * Versões redondas, quando for lançada novas séries
+    * Sempre que o programa for alterado a versão deve ser aumentada, numca 
+	Nunca dois código com a mesma versão.
+
+## Histórico de mundanças.
+
+    * Arquivo de mudança padrão: Changelog ou NEWS
+	* Changelog -> Utilizado para todas mudanças em linguagem técnica
+	  - Exemplo
+		2003-01-31(José): $ARQUIVO agora pode ser um link simbólico
+	* NEWS -> Utilizado para todas as mudanças de forma genérica.
+	  - Exemplo:
+		Novidade da versão 1.3:
+		-  Novas opções de linha de comando -h e --help
+
+	
