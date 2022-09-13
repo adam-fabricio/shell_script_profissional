@@ -36,7 +36,7 @@ Uso: $(basename "$0") [-h | -V]
 
 # Tratamento das opções de linha de comando
 
-while teste -n "$1"
+while test -n "$1"
 do
 	case "$1" in 
 		-r | --reverse)
@@ -88,12 +88,14 @@ fi
 # Inverte a listagem (se necessário)
 if test "$inverter" = 1
 then
-	lista=$(tac "$lista")
+	lista=$(echo "$lista" | tac )
 fi
 
 # Converter para maiúsculas (se necessário)
 if test "$maiuscula" = 1
 then
+	lista=$(echo "$lista" | tr a-z A-Z)
+fi
 
 
 # Mostra o resultado para o usuário
