@@ -14,11 +14,7 @@
 # Versão 5: Adicionadas opções -s e --sort
 # Versão 6: Adicionadas opções -r, --reverse, -u, --upercase, leitura de 
 #			multiplas opções de (loop)
-# Versão 7: Melhoria no código para que fique mais legivel, adicionadas opções
-#			-d, --delimiter
 #
-#
-###############################################################################
 # Aurélio, Novembro 2007
 #
 ###############################################################################
@@ -26,18 +22,15 @@
 ordenar=0		# A saida deverá ser ordenada?
 inverter=0
 maiusculas=0
-delim='\t'
 MENSAGEM_USO="
-Uso: $(basename "$0") [OPÇÕES]
+Uso: $(basename "$0") [-h | -V]
+
+	-r, --reverse \tInverte a listagem
+	-s, --sort \tOrdena a listagem alfabeticamente
+	-u, --upercase \tMostra listagem em MAIÚSCULA
 	
-	OPÇÕES:
-		-d, --delimiter C \tUsa o caractere C como delimitador
-		-r, --ireverse \tInverte a listagem
-		-s, --sort \tOrdena a listagem alfabeticamente
-		-u, --upercase \tMostra listagem em MAIÚSCULA
-		
-		-h, --help \tMostra esta tela de ajuda e sai
-		-V, --version \tMostra a versão do programa e sai
+	-h, --help \tMostra esta tela de ajuda e sai
+	-V, --version \tMostra a versão do programa e sai
 
 "
 
@@ -46,24 +39,17 @@ Uso: $(basename "$0") [OPÇÕES]
 while test -n "$1"
 do
 	case "$1" in 
-
-		# Opções que ligam/desligam chaves
-		-s | --sort)		ordenar=1	;;
-		-r | --reverse)		inverter=1	;;
-		-u | --upercase)	maiuscula=1	;;
-
-		# Opções que usam parâmetros
-		-d | --delimiter)
-			shift
-			delim="$1"
-			if test -z "$delim"
-			then
-				echo "Faltou o argumento para a -d"
-				exit 1
-			fi
+		-r | --reverse)
+			inverter=1
 			;;
-		
-		# Opções de informação do programa
+
+		-s | --sort)
+			ordenar=1
+			;;
+
+		-u | --uppercase)
+			maiuscula=1
+			;;
 
 		-h | --help)
 			echo "$MENSAGEM_USO"
@@ -93,12 +79,25 @@ done
 # Extrai a listagem
 lista=$(cut -d : -f 1,5 /etc/passwd)
 
-# Ordena, inverte e converte para maiúsculo (se necessário)
+# Ordenar a listagem (se necessário)
+if test "$ordenar" = 1
+then
+	lista=$(echo "$lista" | sort)
+fi
 
-test "$ordenar"		= 1	&&	lista=$(echo "$lista" | sort)
-test "$inverter"	= 1	&&	lista=$(echo "$lista" | tac)
-test "$maiuscula"	= 1	&&	lista=$(echo "$lista" | tr a-z A-Z)
+# Inverte a listagem (se necessário)
+if test "$inverter" = 1
+then
+	lista=$(echo "$lista" | tac )
+fi
+
+# Converter para maiúsculas (se necessário)
+if test "$maiuscula" = 1
+then
+	lista=$(echo "$lista" | tr a-z A-Z)
+fi
+
 
 # Mostra o resultado para o usuário
-echo "$lista" | tr : "$delim"
+echo "$lista" | tr : \\t
 
