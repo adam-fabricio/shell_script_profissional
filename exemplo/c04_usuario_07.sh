@@ -16,7 +16,7 @@
 #			multiplas opções de (loop)
 # Versão 7: Melhoria no código para que fique mais legivel, adicionadas opções
 #			-d, --delimiter
-# Versão 7g: Modificado para usar o getopts
+#
 #
 ###############################################################################
 # Aurélio, Novembro 2007
@@ -24,57 +24,70 @@
 ###############################################################################
 
 ordenar=0		# A saida deverá ser ordenada?
-inverter=0		# A saída deverá ser invertida?
-maiusculas=0	# A saída deverá ser em maiúscula?
-delim='\t'		# Caractere usado como delimitador de saída
+inverter=0
+maiusculas=0
+delim='\t'
 MENSAGEM_USO="
 Uso: $(basename "$0") [OPÇÕES]
 	
 	OPÇÕES:
-		-d C	Usa o caracter C como delimitador
-		-r 		inverte a listagem
-		-s 		Ordena a listagem algabeticamente
+		-d, --delimiter C \tUsa o caractere C como delimitador
+		-r, --ireverse \tInverte a listagem
+		-s, --sort \tOrdena a listagem alfabeticamente
+		-u, --upercase \tMostra listagem em MAIÚSCULA
+		
+		-h, --help \tMostra esta tela de ajuda e sai
+		-V, --version \tMostra a versão do programa e sai
 
-		-h 		Mostra esta tela de ajuda e sai
-		-V		Mostra a versão
 "
 
 # Tratamento das opções de linha de comando
 
-while getopts ":hVd:rsu" opcao
+while test -n "$1"
 do
-	case $opcao in
+	case "$1" in 
+
 		# Opções que ligam/desligam chaves
-		s)		ordenar=1	;;
-		r)		inverter=1	;;
-		u)		maiuscula=1	;;
+		-s | --sort)		ordenar=1	;;
+		-r | --reverse)		inverter=1	;;
+		-u | --upercase)	maiuscula=1	;;
 
 		# Opções que usam parâmetros
-		d)		delim="$OPTARG"	;;
+		-d | --delimiter)
+			shift
+			delim="$1"
+			if test -z "$delim"
+			then
+				echo "Faltou o argumento para a -d"
+				exit 1
+			fi
+			;;
 		
 		# Opções de informação do programa
-		h)
+
+		-h | --help)
 			echo "$MENSAGEM_USO"
 			exit 0
 			;;
-		V)
+
+		-V | --version)
 			echo -n $(basename "$0")
-			# Extrai a versão diretamente dos cabeçalhos do programa.
+			# Extrai a versão diretamente dos cabeçalhos do programai
 			grep '^# Versão ' "$0" | tail -1 | cut -d : -f 1 | tr -d \#
 			exit 0
 			;;
 			
-		
-		\?)
-			echo Opção inválida: $OPTARG
-			exit 1
-			;;
-				
-		:)
-			echo Faltou argumento para: $OPTARG
-			exit 1
+		*)
+			if test -n "$1"
+			then
+				echo Opção inválida: $1
+				exit 1
+			fi
 			;;
 	esac
+
+	# Opção $1 já processada, a fila deve andar
+	shift
 done
 
 # Extrai a listagem
