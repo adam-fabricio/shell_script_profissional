@@ -25,4 +25,15 @@ Quando não colocamos aspas " na variável o bash faz uma limpa no conteúdo.
 e a variável só é expandida se colocada em aspas duplas " e não simples '.
 
 ```
+
+A opção -v, o shell mostra na tela os comandos original, antes da execução.
+
+## Debug setorizado (liga/desliga)
+	Serve para setorizar onde o debug vai funcionar, não deixando ele 
+rodando no código inteiro.
+	Para ligar o debug  de comando basta usar ```set -x``` 
+e para desligar ```set +x```.
+	Para ligar o debug de linha tem que usar ```set -v```
+e para desligar ```set +v```. 
+
 	
