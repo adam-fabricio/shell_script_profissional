@@ -60,3 +60,46 @@ Debug(){
 ``` 
 	É uma evolução do debug simples com echo, agora a mensagem apenas irá 
 aparecer quando a variável global $DEBUG for 1.
+
+## Debug categoraizado
+	A idéia é categorizar as mensagens de Debug devido sua criticidade.
+	Quanto maior o número maior é o detalhamento do Debug. Exemplo:
+	- Mensagem nível 1: "Vou iníciar o calculo do total"
+	- Mensagem nível 4: Trariam detalhes de cada variavel.
+	Os niveis são definidos pelo programador, exemplo de níveis.
+	- Nível 1: Mensagens genéricas, de localização ("estou aqui")
+	- Nível 2: Mensagens de localização de fluxo ("Entrei no loop")
+	- Nível 3: Mensagens com conteúdo de variaveis importantes.
+	- Nivel 4: Mensagens com conteúdo de variáveis secundárias.
+	
+	A função Debug() agora pode ser:
+```
+Debug(){
+	[ $1 -le $DEBUG ] && echo "--- DEBUG $*"
+}
+```
+
+Posssibilidades de implementação na função de Debug:
+	- Gravar mensagens em um arquivo para ser analisado posteriormente
+	- Usar uma cor diferente para cada nível (muito util)
+	- Mudar o alinhamento da mensagem, deslocando o texto mais a direita quando
+	  quanto maior for seu nível 
+	- Fazer um pré processamento que verifica outras condições, além do valor 
+	  $DEBUG para decidir se mostra a mensagem ou não.
+
+Esqueleto da função de DEBUG.
+
+```
+Debug(){
+	[ $1 -le $DEBUG ] || return
+	local prefixo
+	case "$1" in
+		1)	prefixo="-- "	;;
+		2)  prefixo="---"	;;
+		3)	prefixo="----"	;;
+		*)	echo "Mensagem não categorizada: $*"; return;;
+	esac
+	shift
+	echo $prefixo$*
+}
+}
