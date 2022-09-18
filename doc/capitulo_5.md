@@ -51,4 +51,12 @@ Não é necessário desativar o modo de depuração.
 
 * Esta técnica funciona apenas no bourne shell
 
-	
+## Debug personalizado
+	Este método consistem em criar uma função para realizar o DEBUG
+```
+Debug(){
+	[ "$DEBUG" = 1 ] && echo "$*"
+}
+``` 
+	É uma evolução do debug simples com echo, agora a mensagem apenas irá 
+aparecer quando a variável global $DEBUG for 1.
