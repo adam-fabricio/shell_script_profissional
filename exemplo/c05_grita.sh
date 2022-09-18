@@ -9,7 +9,7 @@ DEBUG=1									#  Depuração: 0 - Desliga, 1 - Liga
 
 #  Função de depuração
 Debug(){
-	[ "$DEBUG" = 1 ] && echo "$*"
+	[ "$DEBUG" = 1 ] && echo "-----------{ $*"
 }
 
 TXT="gritaria"
