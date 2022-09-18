@@ -49,4 +49,6 @@ trap "" DEBUG
 ```
 Não é necessário desativar o modo de depuração.
 
+* Esta técnica funciona apenas no bourne shell
+
 	
