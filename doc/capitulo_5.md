@@ -36,4 +36,17 @@ e para desligar ```set +x```.
 	Para ligar o debug de linha tem que usar ```set -v```
 e para desligar ```set +v```. 
 
+## Execução passo a passo
+	É um recurso para realizar a execução passo a passo, onde é esperado um 
+comando do usário. Para iniciar o modo debug é necessário colocar o comnado
+```
+trap read DEBUG
+```
+é aconselhavel, iniciar o modo de depuração estar ligado para que as mensagens 
+sejam mostradas na tela.
+```
+trap "" DEBUG
+```
+Não é necessário desativar o modo de depuração.
+
 	
