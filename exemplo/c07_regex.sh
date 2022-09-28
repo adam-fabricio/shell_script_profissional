@@ -62,4 +62,3 @@ echo -e "\033c"
 [ "$1" = "11" ] && echo "$( egrep '[0-9]{3,}' /etc/passwd		)"
 [ "$1" = "12" ] && echo "$( egrep '^[aeiou].*bash$' /etc/passwd	)"
 [ "$1" = "13" ] && echo "$( egrep '^(adam|root):' /etc/passwd	)"
-[ "$1" = "14" ] && echo "$
