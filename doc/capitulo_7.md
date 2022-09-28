@@ -41,3 +41,36 @@ Meta	| Nome		| Equivalente	| Descrição
 *		| asterisco	| {0,}			| Pode aparecer em qualquer quantidade
 +		| mais		| {1,}			| Deve aparecer no mínimo uma vez
 
+##  Notas
+
+- Para forçar o grep a pesquisar po palavbras normais, desligando o suporte às
+	expressões regulares, use a opção -f(--fixed0strings) ou chame-o como
+	fgrep. Pode ser útil quando a palavra que você quer pesquisar possui algum 
+	dos	simbolos especiais considerados metacaracteres.
+- Para evitar o problema de "$" em regex e para identificar variaveis use
+	sempre aspas nas variaveis
+- Use lista negada com cautela. Negar alguns caracteres significa permitir
+    todos os outros! Números, simbolos, TAB e espaço em branco também fazem
+    parte de "qualquer caractere, exceto vogais". Em nosso exemplo atual isso
+  	Não atrapalha, mas tenha sempre em mente que essa negação é bem 
+	abrangente.
+- O ponto é um caracter especial, para casar um ponto literal, escape-o com a
+	contrabarra "\"
+
+## Detalhes
+
+- O intervalo a-z não inclui os caracteres acentuados. Para procurar texto em
+  portugês acentuado [a-záéíóúàââêôãõç]. Caso o sistema esteja corretamente
+  configurado pode se usar o [[:lower:]] ou [[:upper:]]
+- Dependendo do aplicativo, a sintaxe das expressões pode ser diferente da que
+  usamos no egrep. No sed e no grep, por exemplo, as chaves e o "ou" devem ser
+  escapados para serem especiais.
+  Programa		| Opcional	| Mais	| Chaves	| Ou	| Grupo
+  ------------	|---------	|------	| -------	| -----	| ------
+  awk			| ?			| +		| -			| |		| ()
+  egrep, awk	| ?			| +		| {,}		| |		| ()
+  emacs, find	| ?			| +		| -			| \|	| \(\)
+  grep, sed		| \?		| \+	| \{,\}		| \|	| \(\)
+  vim			| \=		| \+	| \{,}		| \|	| \(\)
+- Há programas para auxiliar o aprendizado de expressões regulares, o txt2regex
+  (http://txt2regex.sourceforgr.net) (http://regexpal.com) 
