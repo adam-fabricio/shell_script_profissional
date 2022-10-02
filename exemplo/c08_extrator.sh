@@ -21,6 +21,15 @@
 #		- Restruturado o código usando case
 #		- Criado ajuda para o uso
 #		- melhorando o filtro
+#	v3.1	-	02/11/2022	-	Adam
+#		- Adicionado filtro para ignorar maiusculo e minusculo
+#
+#------------------------------------Notas------------------------------------#
+#
+#	Comando "sed"
+#		sed 's/regex/substituto/ ; s/regex/substituto' arquivo 
+#			 |
+#			 -> Função "s" subistituir
 #
 #------------------------------------Teste------------------------------------#
 #
@@ -40,9 +49,12 @@ Uso $(basename "$0") [opção 1] [opção 2] [opção 3]
 	OPÇÂO 1	- Escolha do arquivo que será utilizado para o filtro:
 		1	c08_pagina1.html
 		2	c08_pagina2.html
+		3	c08_pagina3.html
+		4	c08_pagina4.html
 	Opção 2	- Escolha do filtro da linha
 		1	fgrep Google arquivo
 		2	fgrep '>Google<\\a> arquivo
+		3	fgrep -i (para não diferenciar maiusculo de minusculo)
 	opção 3	- Retirada o link da linha
 		1	cut -d \" -f 2
 		2	sed 's/.*href='// ; s/'.*//'
@@ -54,18 +66,23 @@ Uso $(basename "$0") [opção 1] [opção 2] [opção 3]
 
 
 case "$1" in
-	"1")	pagina="exemplo/c08_pagina1.html"	;;
-	"2")	pagina="exemplo/c08_pagina2.html"	;;
+	"1")	pagina="exemplo/c08_pagina1.html"		;;
+	"2")	pagina="exemplo/c08_pagina2.html"		;;
+	"3")	pagina="exemplo/c08_pagina3.html"		;;
+	"3")	pagina="exemplo/c08_pagina4.html"		;;
+	*  )	echo "parâmetro incorreto"; exit 1		;;
 esac
 
 case "$2" in
-	"1")	linha=$(fgrep Google "$pagina")			;;
-	"2")	linha=$(fgrep '>Google<\a>' "$pagina")	;;
+	"1")	linha=$(fgrep Google "$pagina"				)	;;
+	"2")	linha=$(fgrep 	 '>Google</a>' "$pagina"	)	;;
+	"3")	linha=$(fgrep -i '>Google</a>' "$pagina"	)	;;
 esac
 
 case "$3" in
 	"1")	linha=$(echo "$linha" | cut -d \" -f 2)					;;
-	"2")	linha=$(echo "$linha" | sed 's/.*href="// ; s/".*//')	;;
+	"2")	linha=$(echo "$linha" | sed 's/.*href="//')				;;
+	"3")	linha=$(echo "$linha" | sed 's/.*href="// ; s/".*//')	;;
 esac
 
 echo "$linha"
