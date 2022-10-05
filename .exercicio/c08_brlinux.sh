@@ -9,7 +9,8 @@
 #
 #	Histórico:
 #		v1.0	-	05/10/2022	-	Adam
-#			-
+#			- Extrai os titulos do site http://br-linux.org (index)
+#
 #
 #-----------------------------------------------------------------------------#
 #
@@ -21,7 +22,8 @@
 #
 #-----------------------------------VARIAVEIS---------------------------------#
 
-site=$(lynx -source http://br-linux.org)
+manchetes=$(lynx -source http://br-linux.org)
+#manchetes=$(cat .exercicio/brlinux.html	)
 
 #---------------------------------PRE EXECUÇÃO--------------------------------#
 
@@ -29,8 +31,11 @@ echo -ne '\033c'
 
 #-----------------------------------EXECUÇÃO----------------------------------#
 
+manchetes=$( echo "$manchetes" | grep "<h2><a"	)
+manchetes=$( echo "$manchetes" | sed 's/[^a-z]*<[^>]*>//g'	)
+
 #---------------------------------POS EXECUÇÃO--------------------------------#
-echo "$site"
+echo "$manchetes"
 echo
 #-----------------------------------------------------------------------------#
 
