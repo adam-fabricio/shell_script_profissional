@@ -26,8 +26,10 @@
 #	Histórico:
 #		V1.0	-	08/10/2022	-	Adam:
 #			- Esqueleto do programa
-#		v2.0	-	08/10/2022	-	Adam
+#		v2.0	-	08/10/2022	-	Adam:
 #			- Construindo o parser
+#		v3.0	-	08/10/2022	-	Adam:
+#			- transformando a linha em variaveis posicionais
 #			
 #-------------------------------PRE EXECUÇÂO----------------------------------#
 CONFIG=$(dirname "$0")"/c09_mensagem.conf"			#  Arquivo de configuração
@@ -40,14 +42,23 @@ MENSAGEM='Mensagem padrão'							#  config: Mensagem
 #  Loop para ler linha a linha a configuração, guardando em $LINHA
 while read LINHA; do
 	#  ":" -  Comando vazio, que não faz nadai
-	echo com aspas: "$LINHA"
-	echo sem aspas: $LINHA
-	#  Ignorando as linhas de comentári
+	## echo com aspas: "$LINHA"
+	## echo sem aspas: $LINHA
+	#  Ignorando as linhas de comentário
+
 	[ "$(echo $LINHA | cut -c1)" == "#" ] && continue
 	#  Ignorando as linhas em branco
 	[ "$LINHA" ] || continue
-	#  O resto
-	echo +++ $LINHA
+	#  Guardando cada palavra da linha em $1, $2, $3, ...
+	#  "Suzy pe metaleira" fica $1=Suzy	$2=é	$3=metaleira
+	set - $LINHA
+	#  Extraindo os dados
+	#  Primeiro vem a a chave e o resto é o valor.
+	echo $*
+	chave=$1
+	shift
+	valor=$*
+	echo "+++ $chave --> $valor"
 done < "$CONFIG"
 #---------------------------------EXECUÇÃO------------------------------------#
 if [ $USAR_CORES -eq 1 ]; then
