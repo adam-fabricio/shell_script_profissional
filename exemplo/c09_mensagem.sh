@@ -29,7 +29,9 @@
 #		v2.0	-	08/10/2022	-	Adam:
 #			- Construindo o parser
 #		v3.0	-	08/10/2022	-	Adam:
-#			- transformando a linha em variaveis posicionais
+#			- Transformando a linha em variaveis posicionais
+#		v4.0	-	08/10/2022	-	Adam:
+#			- Finalizado o primeiro parser
 #			
 #-------------------------------PRE EXECUÇÂO----------------------------------#
 CONFIG=$(dirname "$0")"/c09_mensagem.conf"			#  Arquivo de configuração
@@ -54,11 +56,19 @@ while read LINHA; do
 	set - $LINHA
 	#  Extraindo os dados
 	#  Primeiro vem a a chave e o resto é o valor.
-	echo $*
 	chave=$1
 	shift
 	valor=$*
-	echo "+++ $chave --> $valor"
+	##   echo "+++ $chave --> $valor"
+	#  Processando as configurações encontradas
+	case "$chave" in
+		UsarCores)	[ "$valor" = 'ON' ] && USAR_CORES=1			;;
+		CorFundo)	COR_FUNDO=$valor							;;
+		CorLetra)	COR_LETRA=$valor							;;
+		Mensagem)	MENSAGEM=$valor								;;
+		*)	echo "Erro no arquivo de configuração"	;	exit 1	;;
+	esac
+
 done < "$CONFIG"
 #---------------------------------EXECUÇÃO------------------------------------#
 if [ $USAR_CORES -eq 1 ]; then
