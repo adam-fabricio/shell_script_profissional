@@ -14,10 +14,20 @@
 #	com a letra "m" seguinte, que faz parte do caractere de controle ESC[m.
 #	Sem as chaves o shell tentaia expandir a variável $COR_LETRAm, que não
 #   Existe.
+#
+#	Dica:
+#		Basta referenciar o $Linha sem aspas para que todos os beancos do
+#	início e fim da linha sejam removidos, e os espaços e TABs entre a chave
+#	sejam convertidos para apenas um espaço normal.
+#			teste: 
+#				echo com aspas: "$LINHA"
+#				echo sem apspas $LINHA
 #-----------------------------------------------------------------------------#
 #	Histórico:
 #		V1.0	-	08/10/2022	-	Adam:
 #			- Esqueleto do programa
+#		v2.0	-	08/10/2022	-	Adam
+#			- Construindo o parser
 #			
 #-------------------------------PRE EXECUÇÂO----------------------------------#
 CONFIG=$(dirname "$0")"/c09_mensagem.conf"			#  Arquivo de configuração
@@ -29,8 +39,15 @@ MENSAGEM='Mensagem padrão'							#  config: Mensagem
 #----------------------------------PARSER-------------------------------------#
 #  Loop para ler linha a linha a configuração, guardando em $LINHA
 while read LINHA; do
-	#  Comando vazio, que não faz nada
-	:
+	#  ":" -  Comando vazio, que não faz nadai
+	echo com aspas: "$LINHA"
+	echo sem aspas: $LINHA
+	#  Ignorando as linhas de comentári
+	[ "$(echo $LINHA | cut -c1)" == "#" ] && continue
+	#  Ignorando as linhas em branco
+	[ "$LINHA" ] || continue
+	#  O resto
+	echo +++ $LINHA
 done < "$CONFIG"
 #---------------------------------EXECUÇÃO------------------------------------#
 if [ $USAR_CORES -eq 1 ]; then
