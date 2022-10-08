@@ -14,6 +14,8 @@
 #	com a letra "m" seguinte, que faz parte do caractere de controle ESC[m.
 #	Sem as chaves o shell tentaia expandir a variável $COR_LETRAm, que não
 #   Existe.
+#		O comando diff pode ser redirecionado para o vim:
+#			diff -u arquivo1 arquivo2 | vim -
 #
 #	Dica:
 #		Basta referenciar o $Linha sem aspas para que todos os beancos do
@@ -22,6 +24,7 @@
 #			teste: 
 #				echo com aspas: "$LINHA"
 #				echo sem apspas $LINHA
+#
 #-----------------------------------------------------------------------------#
 #	Histórico:
 #		V1.0	-	08/10/2022	-	Adam:
@@ -32,9 +35,12 @@
 #			- Transformando a linha em variaveis posicionais
 #		v4.0	-	08/10/2022	-	Adam:
 #			- Finalizado o primeiro parser
-#			
+#		v5.0	-	08/10/2022	-	Adam:
+#			- Melhorisas no parser
+#			- transformarndo o valor de todas as chaves para minusculo
 #-------------------------------PRE EXECUÇÂO----------------------------------#
-CONFIG=$(dirname "$0")"/c09_mensagem.conf"			#  Arquivo de configuração
+CONFIG=$(dirname "$0")"/c09_mensagem_1.conf"	#  Arquivo de configuração
+#CONFIG=$(dirname "$0")"/c09_mensagem.conf"		#  Arquivo de configuração
 #--------------------------------VARIAVEIS------------------------------------#
 USAR_CORES=0										#  config: UsarCores
 COR_LETA=											#  config: CorLetra
@@ -55,18 +61,19 @@ while read LINHA; do
 	#  "Suzy pe metaleira" fica $1=Suzy	$2=é	$3=metaleira
 	set - $LINHA
 	#  Extraindo os dados
-	#  Primeiro vem a a chave e o resto é o valor.
-	chave=$1
+	#  Primeiro vem a chave e o resto é o valor.
+	#  Transformando o valor das chaves para minúsculas. 
+	chave=$(echo $1 | tr A-Z a-z)
 	shift
 	valor=$*
 	##   echo "+++ $chave --> $valor"
 	#  Processando as configurações encontradas
 	case "$chave" in
-		UsarCores)	[ "$valor" = 'ON' ] && USAR_CORES=1			;;
-		CorFundo)	COR_FUNDO=$valor							;;
-		CorLetra)	COR_LETRA=$valor							;;
-		Mensagem)	MENSAGEM=$valor								;;
-		*)	echo "Erro no arquivo de configuração"	;	exit 1	;;
+		usarcores)	[ $(echo $valor | tr A-Z a-z) = 'on' ] && USAR_CORES=1	;;
+		corfundo)	COR_FUNDO=$(echo $valor | tr -d -c 0-9)					;;
+		corletra)	COR_LETRA=$(echo $valor	| tr -d -c 0-9)					;;
+		mensagem)	[ "$valor" ] && MENSAGEM=$valor							;;
+		*)	echo "Erro no arquivo de configuração"	;	exit 1				;;
 	esac
 
 done < "$CONFIG"
