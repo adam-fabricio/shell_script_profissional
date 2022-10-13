@@ -112,3 +112,21 @@ Exemplos:
 	MENSAGEM="Modo texto é legal"
 	$
 
+##  Implementação para melhoria do parser.
+
+	* Se não existir o arquivo de configuiração o que fazer?
+		* Criar um arquivo vazio com valores padrão
+		* mandar aviso para o usuario
+		* gerar erro
+	* O que fazer caso encontrar chave inválida?
+		* Ignorar
+		* Avisar
+		* atribuir valor padrão
+
+### Função de decodificação genérico
+```
+$  config() { tr -s '\t ' '' < "$2" | sed 's/^ //' | grep -i "^$1" | cut -d' '
+-f2-; }
+```
+
+	

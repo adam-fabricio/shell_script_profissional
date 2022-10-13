@@ -16,7 +16,6 @@
 #	Dicas:
 #		Use $LINHA sem aspas para remover os brancos
 #---------------------------------PRE EXECUÇÃO--------------------------------#
-echo -e '\033c'
 CONFIG=$1								# O aruqivo de existir e ser legivel
 if [ -z "$CONFIG" ]; then
 	echo Uso: parser arquivo.conf
