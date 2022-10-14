@@ -56,21 +56,6 @@ tem_chave() {
 	grep -i -q "^$1$SEP" "$BANCO" 
 }
 
-
-#  Mostra nomes dos campos do banco, um por linha.
-campos() {
-	head -h 1 "$BANCO" | tr $SEP \\n
-}
-
-
-#  Mostra os dados do registro da chave $1
-mostra_registro() {
-	local dados=$(grep -i "^$1$SEP" "$BANCO")
-	local i=0
-	[ "$dados" ] || return
-	campos | while read campo; do					#  
-
-
 #-----------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------#
 #-----------------------------------------------------------------------------#
