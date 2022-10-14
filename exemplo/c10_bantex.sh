@@ -16,6 +16,8 @@
 #			- Adicionado função tem_cahve()
 #			- Inserção e exclusão agora checam antes a existencia 
 #			- Adicionada mensagens informativas na inserção e exclusão
+#		v0.3	-	14/10/2022	-	Adam:
+#			- Adicionado as funcões campo() e mostra_registro()
 #-----------------------------------------------------------------------------#
 #
 #----------------------------------Configurações------------------------------#
@@ -25,11 +27,12 @@ TEMP=temp.$$						#  arquivo temporário
 
 #------------------------------------Funções----------------------------------#
 #  O arquivo de texto com o banco já deve estar definido
-
 [ "$BANCO" ] || {
 	echo "Base de dados não informada. Use a varável BANCO."
 	return 1
 }
+
+
 #  Apaga o registro da chave $1 do banco
 apaga_registro() {
 	tem_chave "$1" || return						#  Se não tem, nem tente
@@ -37,6 +40,7 @@ apaga_registro() {
 	mv "$TEMP" "$BANCO"								#  regrava o banco
 	echo "O registro '$1' foi apagado."
 }
+
 
 #  Insere o registro $* no banco
 insere_registro() {
@@ -51,6 +55,7 @@ insere_registro() {
 	return 0
 }
 
+
 #  Verifica se a chave $1 está no banco
 tem_chave() {
 	grep -i -q "^$1$SEP" "$BANCO" 
@@ -59,26 +64,19 @@ tem_chave() {
 
 #  Mostra nomes dos campos do banco, um por linha.
 campos() {
-	head -h 1 "$BANCO" | tr $SEP \\n
+	head -n 1 "$BANCO" | tr $SEP \\n
 }
-
 
 #  Mostra os dados do registro da chave $1
 mostra_registro() {
 	local dados=$(grep -i "^$1$SEP" "$BANCO")
-	local i=0
-	[ "$dados" ] || return
-	campos | while read campo; do					#  
+	local indice=0
+	[ "$dados" ] || return							#  não achei
+	campos | while read campo; do					#  para cada campo...
+	indice=$((indice+1))							#  indice do campo
+		echo -n "$campo: "							#  imprime o nome do campo
+		echo "$dados" | cut -d $SEP -f $indice		#  conteúdo do campo
+	done
+}
 
-
 #-----------------------------------------------------------------------------#
-#-----------------------------------------------------------------------------#
-#-----------------------------------------------------------------------------#
-#-----------------------------------------------------------------------------#
-#-----------------------------------------------------------------------------#
-#-----------------------------------------------------------------------------#
-#-----------------------------------------------------------------------------#
-#-----------------------------------------------------------------------------#
-#-----------------------------------------------------------------------------#
-#-----------------------------------------------------------------------------#
-
