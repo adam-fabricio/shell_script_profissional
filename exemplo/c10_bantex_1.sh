@@ -10,12 +10,7 @@
 #		Adam Fabricio Silveira Silva
 #-----------------------------------------------------------------------------#
 #	Histórico:
-#		V0.1	-	14/10/2022	-	Adam:
-#			- Cadastra e remove registro do banco
-#		v0.2 	-	14/10/2022	-	Adam:
-#			- Adicionado função tem_cahve()
-#			- Inserção e exclusão agora checam antes a existencia 
-#			- Adicionada mensagens informativas na inserção e exclusão
+#		V0.1 - Cadastra e remove registro do banco
 #-----------------------------------------------------------------------------#
 #
 #----------------------------------Configurações------------------------------#
@@ -32,28 +27,13 @@ TEMP=temp.$$						#  arquivo temporário
 }
 #  Apaga o registro da chave $1 do banco
 apaga_registro() {
-	tem_chave "$1" || return						#  Se não tem, nem tente
-	grep -i -v "^$1$SEP" "$BANCO" > "$TEMP"			#  apaga a chave
-	mv "$TEMP" "$BANCO"								#  regrava o banco
-	echo "O registro '$1' foi apagado."
+	grep -i -v "^$1$SEP" "$BANCO" > "$TEMP"				#  apaga a chave
+	mv "$TEMP" "$BANCO"									#  regrava o banco
 }
 
 #  Insere o registro $* no banco
 insere_registro() {
-	local chave $(echo "$1" | cut -d $SEP -f1)		# Pega o primeiro campo
-	if tem_chave "$chave"; then
-		echo "A chave '$chave' já está cadastrada no banco"
-		return 1
-	else
-		echo "$*" >> "$BANCO"						#  grava o registro
-		echo "Registro de '$chave' cadastrado com sucesso."
-	fi
-	return 0
-}
-
-#  Verifica se a chave $1 está no banco
-tem_chave() {
-	grep -i -q "^$1$SEP" "$BANCO" 
+	echo "$*" >> "$BANCO"								#  grava o registro
 }
 
 #-----------------------------------------------------------------------------#
