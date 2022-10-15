@@ -18,18 +18,41 @@
 #			- Adicionada mensagens informativas na inserção e exclusão
 #		v0.3	-	14/10/2022	-	Adam:
 #			- Adicionado as funcões campo() e mostra_registro()
+#		v1.0	-	15/10/2022	-	Adam:
+#			- Adicionado verificação de permissão do arquivo do banco
+#			- Adicionado função pega_campo()
+#			- Adicionadas funções mascara() e desmascara() e $MASCARA
 #-----------------------------------------------------------------------------#
 #
 #----------------------------------Configurações------------------------------#
 
-SEP=:								#  defina aqui o separador, o padrão é ":"
-TEMP=temp.$$						#  arquivo temporário
+SEP=:							#  defina aqui o separador, o padrão é ":"
+TEMP=temp.$$					#  arquivo temporário
+MASCARA=§						#  caracter exótico para mascarar o separador
 
 #------------------------------------Funções----------------------------------#
 #  O arquivo de texto com o banco já deve estar definido
 [ "$BANCO" ] || {
 	echo "Base de dados não informada. Use a varável BANCO."
 	return 1
+}
+
+
+#  O arquivo deve poder ser lido e gravado
+[ -r "$BANCO" -a -w "$BANCO" ] || {
+	echo "Base travada, confira as permissões de leitura e escrita."
+	return 1
+}
+
+
+#  Esconde/ Mascara o caracter separador quando ele for literal
+mascara()		{ sed 's/'$SEP'/'$MASCARA'/g' ; }	#  exemplo: tr : §
+desmascara()	{ sed 's/'$MASCARA'/'$SEP'/g' ; }	#  exemplo: tr § :
+
+
+#  Verifica se a chave $1 está no banco
+tem_chave() {
+	grep -i -q "^$1$SEP" "$BANCO" 
 }
 
 
@@ -48,7 +71,7 @@ insere_registro() {
 	if tem_chave "$chave"; then
 		echo "A chave '$chave' já está cadastrada no banco"
 		return 1
-	else
+	else											#  chave nova
 		echo "$*" >> "$BANCO"						#  grava o registro
 		echo "Registro de '$chave' cadastrado com sucesso."
 	fi
@@ -56,9 +79,10 @@ insere_registro() {
 }
 
 
-#  Verifica se a chave $1 está no banco
-tem_chave() {
-	grep -i -q "^$1$SEP" "$BANCO" 
+#  Mostra o valor do campo numer $1 do registro de chave $2(opcional)
+pega_campo() {
+	local chave=${2:-.*}
+	grep -i "^$chave$SEP" "$BANCO" | cut -d $SEP -f $1 | desmascara
 }
 
 
@@ -66,6 +90,7 @@ tem_chave() {
 campos() {
 	head -n 1 "$BANCO" | tr $SEP \\n
 }
+
 
 #  Mostra os dados do registro da chave $1
 mostra_registro() {
@@ -75,7 +100,7 @@ mostra_registro() {
 	campos | while read campo; do					#  para cada campo...
 	indice=$((indice+1))							#  indice do campo
 		echo -n "$campo: "							#  imprime o nome do campo
-		echo "$dados" | cut -d $SEP -f $indice		#  conteúdo do campo
+		echo "$dados" | cut -d $SEP -f $indice | desmascara
 	done
 }
 

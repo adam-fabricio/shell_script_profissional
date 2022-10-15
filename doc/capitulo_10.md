@@ -71,4 +71,15 @@
 	* Mostrar, apagar, inserir e modificar registros.
 
 
+### Melhorias na funcionalidade do programa banco textual
+
+	* Mascarar dados na inserção do dado no banco
+	* Checagem adicional na entrada de dados
+	* funções de estatística 
+		* número de campos
+		* número de registros
+		* função de ordenamento
+		* função de edição de registro
+		* log
+
 
