@@ -50,7 +50,7 @@ pela internet.
    embutidos. Outro problema será a legibilidade do código, que ficará
    prejudicada.
 
-## Configurando o Apache2
+##  Configurando o Apache2
 
 Conforme descrito é necessário fazer algunmas mudança devido a atualização do
 apache.
@@ -63,4 +63,44 @@ apache.
  	/etc/apache2/mods_available/mime.conf
 5- O usuário configurado está em /etc/apache2/envvars.conf e é www-data
 
+##  Característica do arquivo CGI.
+
+Para o CGI funcionar, é necessário:
+*  O arquivo ter permissão para executar pelo usuário do Apache.
+*  Deve enviar a primeira linha o tipo de conteúdo. "Content-type"
+*  Na segunda linha deve ser em branco.
+
+##  HTML
+
+###  Etiquetas (TAG)
+
+Tag           | Descrição 
+------------- | ---------------------------------
+H1            |  Título                                                       
+H2            |  Subtítulo                                                    
+P             |  Parágrafo                                                    
+B             |  Negrito                                                      
+I             |  Itálico                                                      
+U             |  Sublinhado                                                   
+FONT          |  Fonte (tipografia)                                           
+BR            |  Quebra de linha (\n)                                         
+PRE           |  Código (fonte fixa, mantém quebras de linha)                 
+HR            |  Linha separadora                                             
+IMG           |  Imagem, foto                                                 
+A             |  Link                                                         
+UL, LI        |  Lista de itens                                               
+TABLE, TR, TD |  Tabela                                                       
+                                                                              
+
+*  Um arquivo HTML é um arquivo de textonormal, preém com tags marcando as
+   palavras
+*  As tags sempre são colocadas entre os sinais de menor e maior, <assim>
+*  Algumas tags abrem e fecha e outras são sózinha. 
+*  Algumas tags aceitam argumentos opcionais, modificando seu comportamento
+   original.
+*  As tags não são sencitivas.
+*  Vários espaços consectivos e linhas em branco aparecem como um único espaço
+   em branco no navegador
+*  Pode-se colocar tag dentro da tag
+*  Pode acumular tag ao redor de um trecho 
 
