@@ -104,3 +104,31 @@ TABLE, TR, TD |  Tabela
 *  Pode-se colocar tag dentro da tag
 *  Pode acumular tag ao redor de um trecho 
 
+###  Formulários, a interação com o usuário.
+
+*  As tag de formulário são como as outras tags do HTML
+*  A tag form abriga o formulário. Todas as outras Tags devem estar neal
+*  O atributo method da tag FORM geralmente é preenchido com o POST.
+*  O atributo action da tag form é o endereço do CGI
+*  O atributo name é o mesmo para todas as tag do grupo
+*  Coloque o atributo checked para que um atributo seja marcado por padrão
+*  O atributo selected tem a mesma função
+*  No checkbox, radio e select as escolhas retornam o valor que está em value
+*  use o atributo SIZE="4" para que ao expandir mostre 4 itens
+
+
+
+####  Tags em formulários
+
+tipo     |  Descrição
+-------- |  -------------------------------
+Form     |  Formulário
+Text     |  Caixa de texto 
+Textarea |  Caixa de texto (várias linhas)
+Checkbox |  Opção (liga/desliga)
+radio    |  Opção (exclussiva)
+select   |  Menu
+hidden   |  Valor escondido
+submit   |  Botão de envio
+
+
