@@ -4,16 +4,10 @@
 #  Vamos mostrar uma página html
 
 #  Necessário para o Apache
-#---------PARTE 1 - Informa o apache que o é uma página html------------------#
 echo Content-type: text/html
 echo
 
-#--------------------------PARTE 2 - Extrair os dados ------------------------#
-urldecode() {
-	echo -e $(sed s'/%/\\x/g')
-}
-
-#--------------------------PARTE 3 - Extrair os dados ------------------------#
+#--------------------------PARTE 1 - Extrair os dados ------------------------#
 #  Lê os dados do formulário via STDIN
 read TRIPA
 
@@ -24,8 +18,8 @@ set - $TRIPA
 #  Para cada par de dados...
 for nome_valor; do
 	#Extrai cada componente do par
-	nome_campo=$( echo "$nome_valor" | cut -d= -f1							)
-	valor_campo=$(echo "$nome_valor" | cut -d= -f2 | tr + ' ' | urldecode	)
+	nome_campo=$( echo "$nome_valor" | cut -d= -f1				)
+	valor_campo=$(echo "$nome_valor" | cut -d= -f2 | tr + ' '	)
 	#  Usa o eval para guardar o valor em uma variável
 	#  Ex.: eval idade="18-30"
 	eval $nome_campo=\"$valor_campo\"
@@ -47,6 +41,7 @@ cat <<FIM
 	<h1>Dados de $primeiro_nome:</h1>
 	<ul>
 		<li><b>Nome: 			</b> $nome			</li>
+		<li><b>Primeiro nome: 	</b> $primeiro_nome	</li>
 		<li><b>Idade:			</b> $idade			</li>
 		<li><b>Sexo: 			</b> $sexo 			</li>
 	</ul>

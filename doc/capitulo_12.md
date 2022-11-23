@@ -131,4 +131,13 @@ select   |  Menu
 hidden   |  Valor escondido
 submit   |  Botão de envio
 
+###  Caracters especiais do STDIN
+
+Caracter |  Significado
+-------- |  ---
+&        |  Separa pares de campo e valor
+=        |  separa os componentes de cada par.
++        |  Mascara espaços em branco
+%HH      |  HH é o código asc do caracter, em hexadecimal
+
 
