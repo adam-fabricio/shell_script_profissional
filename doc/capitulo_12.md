@@ -140,4 +140,17 @@ Caracter |  Significado
 +        |  Mascara espaços em branco
 %HH      |  HH é o código asc do caracter, em hexadecimal
 
+### Variaveis de ambiente do CGI
+O apache possui algumas variaveis de ambientes pre-definidas
+
+Variável         |  Descrição
+---------------  |  -----------
+DOCUMENT_ROOT    |  Diretório raiz dos documentos HTML
+HTTP_USER_AGENT  |  Nome do navegador do cliente
+QUERY_STRING     |  Parâmetros de formulário
+REMOTE_ADDR      |  IP do cliente
+REQUEST_METHOD   |  Metodo requisitado (GET ou POST)
+REQUEST_URI      |  Endereço da página requisitada
+SERVER_ADDR      |  IP do servidor
+SERVER_NAME      |  Nome do servidor 
 
