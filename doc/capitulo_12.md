@@ -118,7 +118,7 @@ TABLE, TR, TD |  Tabela
 
 
 
-####  Tags em formulários
+###  Tags em formulários
 
 tipo     |  Descrição
 -------- |  -------------------------------
@@ -131,7 +131,7 @@ select   |  Menu
 hidden   |  Valor escondido
 submit   |  Botão de envio
 
-###  Caracters especiais do STDIN
+##  Caracters especiais do STDIN
 
 Caracter |  Significado
 -------- |  ---
@@ -140,7 +140,7 @@ Caracter |  Significado
 +        |  Mascara espaços em branco
 %HH      |  HH é o código asc do caracter, em hexadecimal
 
-### Variaveis de ambiente do CGI
+## Variaveis de ambiente do CGI
 O apache possui algumas variaveis de ambientes pre-definidas
 
 Variável         |  Descrição
@@ -153,4 +153,64 @@ REQUEST_METHOD   |  Metodo requisitado (GET ou POST)
 REQUEST_URI      |  Endereço da página requisitada
 SERVER_ADDR      |  IP do servidor
 SERVER_NAME      |  Nome do servidor 
+
+##  Depurar CGI
+
+Lista de conpatibilidade.
+
+
+Tipo de depuração            |  Funciona no ambiente CGI?
+---------------------------  |  -------------------------
+Verificação de sintaxe (-n)  |  Sim (pela linha de comando)
+Debug com echo               |  SIM
+Debug com a opção -x         |  NÃO (vem antes do Content-type)
+Debug com o set -x           |  Sim (colocar depois do Content-type)
+Execução passo a passo       |  NÃO (CGI não é interativo)
+Debug personalizado          |  SIM
+Debug categorizado           |  SIM
+
+A verificação da sintaxe do script (bash -n) pode ser feita normalmente na
+linha de comando já que ela idepende de opções e de ambiente.
+
+Errado
+```
+#!/bin/bash
+#  Conecta a STDERR (Usada pelo set -x) com a STDOUT
+exec 2>&1
+#  Liga a depuração
+set -x
+
+echo Content-type: text/html
+echo
+```
+
+Certo
+```
+echo Content-type: text/html
+echo
+#  Conecta a STDERR (usada pelo set -x) com a STDOUT
+exec 2>&1
+# Liga Depuração
+set -x
+```
+
+Como a saída é o navegador é possivel explorar a forma de saída do DEBUG, ou
+seja é melhor utilizar uma funçaõ personalizada de debug
+```
+Debug(){
+	[ "$DEBUG" !=1 ] && return
+	echo '<p STYLE="color:red;background:yellow">'&*'</P>'
+}
+```
+##  Considerações de segurança
+
+Ao utilizar o eval ele executa o código como se ele estivesse sendo digitado.
+E com isso ao ter um capo aberto para digitação, pode ser inserido um código e
+com isso abrir um subshell e apresentar informações sensiveis.
+Uma solução rápida para isso é escapar caracter vitais como a crase "`" e "$"
+```
+urldecode() {
+	echo -e $(sed 's/%/\\x/g') | tr -d '$`'
+}
+```
 
